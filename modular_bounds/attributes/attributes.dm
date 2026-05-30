@@ -14,6 +14,39 @@
 	/// List of any active attribute modifiers this mob may have, arranged as ATTRIBUTE_WHATEVER = number modifier
 	var/list/attributes = list()
 
+/// Get's a carbon's score for an attribute, optionally adjusted by modifiers
+/mob/living/carbon/proc/get_attribute_score(attribute, modified = TRUE)
+	if(!attribute)
+		return 0
+	var/score = attributes[attribute]
+	if(!modified)
+		return score
+	if(attribute in attribute_modifiers)
+		score += attribute_modifiers[attribute]
+	return score
+
+/// Returns a multiplied time for a given attribute or attributes via a list and an original time
+/proc/attributes_adjusted_time(mob/living/carbon/holder, list/attributes_to_check, original_time)
+	if(isnull(holder) || isnull(attributes_to_check) || isnull(original_time))
+		return
+	var/score_to_use = 0
+	for(var/attribute in attributes_to_check)
+		var/attribute_score = holder.get_attribute_score(attribute)
+		score_to_use = max(score_to_use, attribute_score)
+	switch(score_to_use)
+		if(0 to 1)
+			return original_time * 1.5
+		if(2)
+			return original_time * 1.25
+		if(3 to 5)
+			return original_time * 1
+		if(6 to 7)
+			return original_time * 0.9
+		if(8 to 9)
+			return original_time * 0.825
+		if(10)
+			return original_time * 0.75
+
 /// Returns a title for a specific attribute level per attribute
 /proc/get_attribute_title(attribute, score)
 	switch(attribute)
