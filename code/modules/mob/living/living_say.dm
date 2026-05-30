@@ -306,7 +306,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 
 		// But we can still see them speak
 		if(speaker_is_signing)
-			deaf_message = "[speaker_name] [speaker.get_default_say_verb()] something, but the motions are too subtle to make out from afar."
+			deaf_message = "[span_name("[chat_name_color_prefs_check(speaker, src, speaker_name)]")] [speaker.get_default_say_verb()] something, but the motions are too subtle to make out from afar." // OUTERBOUNDS EDIT - Colored chat names - ORIGINAL: deaf_message = "[span_name("[speaker]")] [speaker.get_default_say_verb()] something, but the motions are too subtle to make out from afar."
 		else if(!HAS_TRAIT(src, TRAIT_DEAF)) // If we can't hear we want to continue to the default deaf message
 			if(isliving(speaker))
 				var/mob/living/living_speaker = speaker
@@ -314,7 +314,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 				if(mouth_hidden && !HAS_TRAIT(src, TRAIT_SEE_MASK_WHISPER)) // Can't see them speak if their mouth is covered or hidden, unless we're an empath
 					return FALSE
 
-			deaf_message = "[speaker_name] [speaker.verb_whisper] something, but you are too far away to hear [speaker.p_them()]."
+			deaf_message = "[span_name("[chat_name_color_prefs_check(speaker, src, speaker_name)]")] [speaker.verb_whisper] something, but you are too far away to hear [speaker.p_them()]." // OUTERBOUNDS EDIT - Colored chat names - ORIGNAL: deaf_message = "[span_name("[speaker]")] [speaker.verb_whisper] something, but you are too far away to hear [speaker.p_them()]."
 
 		if(deaf_message)
 			deaf_type = MSG_VISUAL
@@ -354,7 +354,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 
 	if(speaker != src)
 		if(!radio_freq) //These checks have to be separate, else people talking on the radio will make "You can't hear yourself!" appear when hearing people over the radio while deaf.
-			deaf_message = "[speaker_name] [speaker.get_default_say_verb()] something but you cannot hear [speaker.p_them()]."
+			deaf_message = "[span_name("[chat_name_color_prefs_check(speaker, src)]")] [speaker.get_default_say_verb()] something but you cannot hear [speaker.p_them()]." // OUTERBOUNDS EDIT - Colored chat names - ORIGINAL: deaf_message = "[span_name("[speaker]")] [speaker.get_default_say_verb()] something but you cannot hear [speaker.p_them()]."
 			deaf_type = MSG_VISUAL
 	else
 		deaf_message = span_notice("You can't hear yourself!")

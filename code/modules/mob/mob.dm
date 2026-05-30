@@ -279,7 +279,7 @@
  * * ignored_mobs (optional) doesn't show any message to any mob in this list.
  * * visible_message_flags (optional) is the type of message being sent.
  */
-/atom/proc/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, visible_message_flags = NONE)
+/atom/proc/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, visible_message_flags = NONE, separation = " ") // OUTERBOUNDS EDIT ADDITION - separation - ORIGINAL: /atom/proc/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, visible_message_flags = NONE)
 	var/turf/T = get_turf(src)
 	if(!T)
 		return
@@ -292,8 +292,8 @@
 	var/raw_msg = message
 	if(visible_message_flags & WITH_EMPHASIS_MESSAGE)
 		message = apply_message_emphasis(message)
-	if(visible_message_flags & EMOTE_MESSAGE)
-		message = span_emote("<b>[src]</b> [message]")
+	/* if(visible_message_flags & EMOTE_MESSAGE) // OUTERBOUNDS REMOVAL - Coloured chat names, handling in for loop below
+		message = span_emote("<b>[src]</b> [message]") */
 
 	for(var/mob/hearing_mob as anything in hearers)
 		if(!hearing_mob?.client)
@@ -321,10 +321,17 @@
 		if(visible_message_flags & EMOTE_MESSAGE && runechat_prefs_check(hearing_mob, visible_message_flags) && !hearing_mob.is_blind())
 			hearing_mob.create_chat_message(src, raw_message = raw_msg, runechat_flags = visible_message_flags)
 
-		hearing_mob.show_message(msg, msg_type, blind_message, MSG_AUDIBLE)
+		// OUTERBOUNDS ADDITION START - Coloured chat name prefs
+		var/used_message = msg
+		var/used_blind_message = blind_message
+		if(visible_message_flags & EMOTE_MESSAGE)
+			used_message = span_emote("[chat_name_color_prefs_check(src, hearing_mob)][separation][message]")
+			used_blind_message = span_emote("You see how [chat_name_color_prefs_check(src, hearing_mob)][separation][message]")
+		// OUTERBOUNDS ADDITION END
+		hearing_mob.show_message(used_message, msg_type, used_blind_message, MSG_AUDIBLE) // OUTERBOUNDS EDIT - Coloured chat name prefs - ORIGINAL: hearing_mob.show_message(msg, msg_type, blind_message, MSG_AUDIBLE)
 
 ///Adds the functionality to self_message.
-/mob/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, visible_message_flags = NONE)
+/mob/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, visible_message_flags = NONE, separation = " ") // OUTERBOUNDS EDIT - Separation - ORIGINAL: /mob/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, visible_message_flags = NONE)
 	. = ..()
 	if(!self_message)
 		return
@@ -334,7 +341,7 @@
 	if(visible_message_flags & WITH_EMPHASIS_MESSAGE)
 		self_message = apply_message_emphasis(self_message)
 	if(visible_message_flags & EMOTE_MESSAGE)
-		self_message = span_emote("<b>[src]</b> [self_message]") // May make more sense as "You do x"
+		self_message = span_emote("[chat_name_color_prefs_check(src, src)][separation][message]") // OUTERBOUNDS EDIT - Coloured chat names - ORIGINAL: self_message = span_emote("<b>[src]</b> [self_message]") // May make more sense as "You do x"
 
 	if(visible_message_flags & ALWAYS_SHOW_SELF_MESSAGE)
 		to_chat(src, self_message, avoid_highlighting = block_self_highlight)
@@ -357,13 +364,13 @@
  * * self_message (optional) is what the src mob hears.
  * * audible_message_flags (optional) is the type of message being sent.
  */
-/atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, audible_message_flags = NONE)
+/atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, audible_message_flags = NONE, separation = " ") // OUTERBOUNDS EDIT - /atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, audible_message_flags = NONE)
 	var/list/hearers = mob_only_listeners(get_hearers_in_view(hearing_distance, src))
 	var/raw_msg = message
 	if(audible_message_flags & WITH_EMPHASIS_MESSAGE)
 		message = apply_message_emphasis(message)
-	if(audible_message_flags & EMOTE_MESSAGE)
-		message = span_emote("<b>[src]</b> [message]")
+	/* if(audible_message_flags & EMOTE_MESSAGE) // OUTERBOUNDS REMOVAL - Coloured chat names, handled in for loop below
+		message = span_emote("<b>[src]</b> [message]") */
 	for(var/mob/hearing_mob as anything in hearers)
 		if(!hearing_mob?.client)
 			continue
@@ -371,7 +378,14 @@
 			continue
 		if(audible_message_flags & EMOTE_MESSAGE && runechat_prefs_check(hearing_mob, audible_message_flags) && !HAS_TRAIT(hearing_mob, TRAIT_DEAF))
 			hearing_mob.create_chat_message(src, raw_message = raw_msg, runechat_flags = audible_message_flags)
-		hearing_mob.show_message(message, MSG_AUDIBLE, deaf_message, MSG_VISUAL)
+		// OUTERBOUNDS ADDITION START - Coloured chat name prefs
+		var/used_message = message
+		var/used_deaf_message = deaf_message
+		if(audible_message_flags & EMOTE_MESSAGE)
+			used_message = span_emote("[chat_name_color_prefs_check(src, hearing_mob)][separation][message]")
+			used_deaf_message = span_emote("You see how [chat_name_color_prefs_check(src, hearing_mob)][separation][message]")
+		// OUTERBOUNDS ADDITION END
+		hearing_mob.show_message(used_message, MSG_AUDIBLE, used_deaf_message, MSG_VISUAL) // OUTERBOUNDS EDIT - Coloured chat name prefs - ORIGINAL: hearing_mob.show_message(message, MSG_AUDIBLE, deaf_message, MSG_VISUAL)
 
 /**
  * Show a message to all mobs in earshot of this one
@@ -384,7 +398,7 @@
  * * deaf_message (optional) is what deaf people will see.
  * * hearing_distance (optional) is the range, how many tiles away the message can be heard.
  */
-/mob/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, audible_message_flags = NONE)
+/mob/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, audible_message_flags = NONE, separation = " ") // OUTERBOUNDS EDIT ADDITION - separation
 	. = ..()
 	if(!self_message)
 		return
@@ -394,7 +408,7 @@
 	if(audible_message_flags & WITH_EMPHASIS_MESSAGE)
 		self_message = apply_message_emphasis(self_message)
 	if(audible_message_flags & EMOTE_MESSAGE)
-		self_message = span_emote("<b>[src]</b> [self_message]")
+		self_message = span_emote("[chat_name_color_prefs_check(src, src)][separation][self_message]") // OUTERBOUNDS EDIT - Coloured chat names - ORIGINAL: self_message = span_emote("<b>[src]</b> [self_message]")
 
 	if(audible_message_flags & ALWAYS_SHOW_SELF_MESSAGE)
 		to_chat(src, self_message, avoid_highlighting = block_self_highlight)
