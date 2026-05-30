@@ -6996,6 +6996,8 @@
 #include "modular_bounds\character_customization\markings\body_markings\tattoos.dm"
 #include "modular_bounds\character_customization\markings\body_markings\tertiary.dm"
 #include "modular_bounds\character_customization\markings\preferences\markings.dm"
+#include "modular_bounds\chat\chat_checks.dm"
+#include "modular_bounds\chat\preferences.dm"
 #include "modular_bounds\datumed\condition.dm"
 #include "modular_bounds\datumed\condition_manager.dm"
 #include "modular_bounds\datumed\condition_menu.dm"
