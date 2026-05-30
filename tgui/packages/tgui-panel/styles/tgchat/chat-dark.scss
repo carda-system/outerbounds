@@ -407,6 +407,21 @@ em {
   color: hsl(157.1, 39.6%, 62.4%);
 }
 
+.selfwarning {
+  color: #629b7f;
+}
+
+.boldselfwarning {
+  color: #629b7f;
+  font-weight: bold;
+}
+
+.bigselfwarning {
+  color: #629b7f;
+  font-weight: bold;
+  font-size: 185%;
+}
+
 .yell {
   font-weight: bold;
 }

@@ -431,6 +431,7 @@
 #include "code\__DEFINES\~bounds_defines\loadout.dm"
 #include "code\__DEFINES\~bounds_defines\medical.dm"
 #include "code\__DEFINES\~bounds_defines\preferences.dm"
+#include "code\__DEFINES\~bounds_defines\span.dm"
 #include "code\__DEFINES\~bounds_defines\text.dm"
 #include "code\__HELPERS\_auxtools_api.dm"
 #include "code\__HELPERS\_dreamluau.dm"
