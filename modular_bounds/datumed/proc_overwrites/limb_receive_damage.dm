@@ -2,11 +2,10 @@
 	var/limb_damage = 0
 	if(!owner)
 		return limb_damage
-	for(var/datum/medical_condition/condition as anything in owner.medical_conditions)
-		if(owner.medical_conditions[condition] != body_zone)
-			continue
-		limb_damage += condition.health_offset
-	return brute_dam + burn_dam
+	for(var/datum/medical_condition/condition in owner.medical_conditions)
+		if(owner.medical_conditions[condition] == body_zone)
+			limb_damage += condition.health_offset
+	return abs(limb_damage)
 
 /obj/item/bodypart/proc/receive_damage(brute = 0, burn = 0, blocked = 0, updating_health = TRUE, forced = FALSE, required_bodytype = null, wound_bonus = 0, exposed_wound_bonus = 0, sharpness = NONE, attack_direction = null, damage_source, wound_clothing = TRUE)
 	SHOULD_CALL_PARENT(TRUE)

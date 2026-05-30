@@ -85,6 +85,10 @@
 				conditions_left_arm += list(condition_stats)
 			if(BODY_ZONE_R_ARM)
 				conditions_right_arm += list(condition_stats)
+			if(BODY_ZONE_L_LEG)
+				conditions_left_leg += list(condition_stats)
+			if(BODY_ZONE_R_LEG)
+				conditions_right_leg += list(condition_stats)
 
 	data["conditions_whole_body"] = conditions_whole_body
 	data["conditions_head"] = conditions_head

@@ -27,7 +27,7 @@
 	/// Does the name of this datum change based on severity?
 	var/severity_changes_name = TRUE
 	/// What we call different severity levels, needs to be in proper order like shown here
-	var/severity_name_thresholds = list(
+	var/list/severity_name_thresholds = list(
 		"Negligible" = 1,
 		"Minor" = 3,
 		"Moderate" = 6,
@@ -52,6 +52,7 @@
 	severity = min(CONDITION_SEVERITY_MAX, new_severity)
 	starting_severity = severity
 	base_name = name
+	treatment_text = "Treatment: [treatment_text]"
 
 /datum/medical_condition/Destroy(force)
 	owner = null
@@ -126,10 +127,9 @@
 	if(!severity_changes_name)
 		return
 	var/severity_append = null
-	var/last_iterator_stored = null
-	var/iterations = 0
-	for(var/iterator as anything in severity_name_thresholds)
-		if(severity <= severity_name_thresholds[iterator])
-			severity_append = severity_name_thresholds[iterator]
+	for(var/threshold as anything in severity_name_thresholds)
+		var/threshold_number = severity_name_thresholds[threshold]
+		if(severity <= threshold_number)
+			severity_append = threshold
 			break
 	name = "[base_name] ([severity_append])"
