@@ -85,14 +85,18 @@
 /// What to do to the mob and or the limb on removal
 /datum/medical_condition/proc/on_removal()
 	SHOULD_CALL_PARENT(TRUE)
-	if(owner)
-		owner.medical_conditions -= src
 	qdel(src)
+	if(isnull(owner))
+		return
+	owner.medical_conditions -= src
 
 /// Connected to life processing to the owner mob, for condition progression, or constant effects
 /datum/medical_condition/proc/owner_process(seconds_per_tick)
 	SHOULD_CALL_PARENT(TRUE)
-	if(!owner || severity <= 0)
+	if(isnull(owner))
+		on_removal()
+		return
+	if(severity <= 0)
 		on_removal()
 		return
 	if((!owner.get_bodypart(owner.medical_conditions[src])) && !limb_independence)
