@@ -10,9 +10,21 @@
 		ATTRIBUTE_AWARENESS = DEFAULT_ATTRIBUTE_SCORE,
 	)
 	/// List of current attribute modifiers, ATTRIBUTE_WHATEVER = modifier number
-	var/list/attribute_modifiers = list()
+	var/list/attribute_modifiers = list(
+		ATTRIBUTE_WILLPOWER = 0,
+		ATTRIBUTE_SELF = 0,
+		ATTRIBUTE_SMARTS = 0,
+		ATTRIBUTE_INTUITION = 0,
+		ATTRIBUTE_MUSCLE = 0,
+		ATTRIBUTE_REFLEX = 0,
+		ATTRIBUTE_AWARENESS = 0,
+	)
 	/// List of any active attribute modifiers this mob may have, arranged as ATTRIBUTE_WHATEVER = number modifier
 	var/list/attributes = list()
+
+/// Adjusts a carbon's attribute modifier by a given amount
+/mob/living/carbon/proc/adjust_attribute_modifier(attribute, adjustment)
+	attribute_modifiers[attribute] += adjustment
 
 /// Get's a carbon's score for an attribute, optionally adjusted by modifiers
 /mob/living/carbon/proc/get_attribute_score(attribute, modified = TRUE)
@@ -21,8 +33,7 @@
 	var/score = attributes[attribute]
 	if(!modified)
 		return score
-	if(attribute in attribute_modifiers)
-		score += attribute_modifiers[attribute]
+	score += attribute_modifiers[attribute]
 	return score
 
 /// Returns a multiplied time for a given attribute or attributes via a list and an original time
