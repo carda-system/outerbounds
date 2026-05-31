@@ -1,7 +1,7 @@
 ///Shows a tgui window with medical conditions
 /mob/living/carbon/verb/medical_conditions()
 	set name = "Conditions"
-	set category = "IC"
+	set category = "Outerbounds"
 	set desc = "View your character's medical conditions."
 	if(!conditions_panel)
 		conditions_panel = new(usr, src)

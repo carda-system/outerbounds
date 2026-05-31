@@ -19,8 +19,25 @@
 		ATTRIBUTE_REFLEX = 0,
 		ATTRIBUTE_AWARENESS = 0,
 	)
-	/// List of any active attribute modifiers this mob may have, arranged as ATTRIBUTE_WHATEVER = number modifier
-	var/list/attributes = list()
+
+/mob/living/carbon/verb/view_attributes()
+	set name = "Attributes"
+	set category = "Outerbounds"
+	set desc = "View your character's attributes."
+	attributes_to_chat()
+
+/// Prints a box with all of the carbon's attributes to chat
+/mob/living/carbon/proc/attributes_to_chat()
+	var/attributes_text = ""
+	for(var/attribute in attributes)
+		var/modifier = attribute_modifiers[attribute]
+		attributes_text += "[capitalize(attribute)] ([get_attribute_title(attribute, get_attribute_score(attribute))])"
+		attributes_text += " - [get_attribute_score(attribute)]"
+		if(modifier == 0)
+			attributes_text += "<br>"
+			continue
+		attributes_text += " - [attributes[attribute]][modifier < 0 ? span_red("[modifier]") : span_green("+[modifier]")]<br>"
+	to_chat(src, fieldset_block("Attributes", attributes_text, "boxed_message"))
 
 /// Adjusts a carbon's attribute modifier by a given amount
 /mob/living/carbon/proc/adjust_attribute_modifier(attribute, adjustment)
