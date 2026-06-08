@@ -1170,6 +1170,12 @@
 
 	update_draw_color()
 
+	// OUTERBOUNDS ADDITION - species limb opacity
+	var/datum/species/owner_species = owner.dna.species
+	if(owner_species && owner_species.body_alpha != 255)
+		alpha = owner_species.body_alpha
+	// OUTERBOUNDS ADDITION END
+
 	if(!is_creating || !owner)
 		return FALSE
 

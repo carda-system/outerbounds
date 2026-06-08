@@ -1,0 +1,6 @@
+#define SPECIES_AQUATIC "persean"
+#define SPECIES_REPTILE "cenerian"
+#define SPECIES_FURRIES "nanthi"
+#define SPECIES_AVIAN "alcyoni"
+#define SPECIES_SLIME "archen"
+#define SPECIES_INSECT "shedir"
