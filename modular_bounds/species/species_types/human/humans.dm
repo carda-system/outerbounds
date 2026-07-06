@@ -1,6 +1,6 @@
 /datum/species/human
 	name = "\improper Solarian"
-	plural_form "Solarians"
+	plural_form = "Solarians"
 	id = SPECIES_HUMAN
 	inherent_traits = list(
 		TRAIT_USES_SKINTONES,
