@@ -18,15 +18,50 @@
 	updatehealth()
 
 /// Adds a medical condition to the target body zone, or the whole body if none provided and one not needed by the datum
-/mob/living/carbon/proc/add_medical_condition(datum/medical_condition/condition, target_body_zone)
+/mob/living/carbon/proc/add_medical_condition(datum/medical_condition/condition, target_body_zone, condition_source)
 	if(!target_body_zone && !condition.limb_independence)
 		message_admins("[src] tried to add a condition that requires a specific bodypart defined with no bodypart defined!")
 		return
 	if(!get_bodypart(target_body_zone))
 		return // Much more likely to happen, but still wrong
 	medical_conditions += condition
-	condition.on_application(src, target_body_zone ? get_bodypart(target_body_zone) : null)
+	condition.on_application(src, target_body_zone ? get_bodypart(target_body_zone) : null, condition_source)
 	medical_conditions[condition] = target_body_zone ? target_body_zone : CONDITION_FULL_BODY
+	return condition
+
+/// Removes a medical condition on the target body zone (or whole body) that matches the path given
+/mob/living/carbon/proc/remove_medical_condition(datum/medical_condition/condition, target_body_zone, condition_source)
+	if(isnull(condition))
+		return
+	if(!target_body_zone)
+		target_body_zone = CONDITION_FULL_BODY
+	for(var/datum/medical_condition/mob_condition in medical_conditions)
+		if(istype(mob_condition, condition))
+			if(medical_conditions[mob_condition] == target_body_zone)
+				if(condition_source && (mob_condition.source != condition_source))
+					continue
+				mob_condition.on_removal()
+				return
+
+/// Checks if a condition with a type already exists, if so then changes severity of the condition, if not then adds a new one with that severity
+/mob/living/carbon/proc/add_or_change_medical_condition(datum/medical_condition/condition, target_body_zone, condition_source, severity)
+	if(isnull(condition))
+		return
+	var/should_add_condition = TRUE
+	var/datum/medical_condition/current_condition
+	for(var/datum/medical_condition/mob_condition in medical_conditions)
+		if(istype(mob_condition, condition))
+			if(medical_conditions[mob_condition] == target_body_zone)
+				if(condition_source && (mob_condition.source != condition_source))
+					continue
+				current_condition = mob_condition
+				should_add_condition = FALSE
+				break
+	if(should_add_condition)
+		var/datum/medical_condition/new_condition = new condition(severity)
+		add_medical_condition(new_condition, target_body_zone, condition_source)
+	else
+		current_condition.severity = severity
 
 /// Takes a damage amount and wounding type and converts them into medical conditions, hacky fix for tg combat stuff
 /obj/item/bodypart/proc/damage_to_conditions(damage_amount, wounding_type)

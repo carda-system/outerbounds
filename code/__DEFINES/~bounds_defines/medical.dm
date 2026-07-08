@@ -24,3 +24,8 @@
 #define CONDITION_UI_TREATMENT_QUALITY "condition_ui_treatment_quality"
 /// For the tgui window, this condition is fatal at maximum severity
 #define CONDITION_UI_MAX_SEVERITY_FATAL "condition_ui_max_severity_fatal"
+
+/// Condition added by a generic method, such as taking damage normally
+#define CONDITION_SOURCE_NORMAL "condition_source_normal"
+/// Condition was added by being overburdened
+#define CONDITION_SOURCE_OVERBURDENED "condition_source_overburdened"

@@ -47,6 +47,8 @@
 	var/max_severity_fatal = FALSE
 	/// The message given if this condiiton kills you because of max severity
 	var/death_message = null
+	/// The source of this condition, for removing specific conditions from a mob
+	var/source = CONDITION_SOURCE_NORMAL
 
 /datum/medical_condition/New(new_severity)
 	severity = min(CONDITION_SEVERITY_MAX, new_severity)
@@ -60,7 +62,7 @@
 	return ..()
 
 /// What to do to the mob and or the limb on application
-/datum/medical_condition/proc/on_application(mob/living/carbon/victim, obj/item/bodypart/target_bodypart)
+/datum/medical_condition/proc/on_application(mob/living/carbon/victim, obj/item/bodypart/target_bodypart, condition_source)
 	SHOULD_CALL_PARENT(TRUE)
 	if(!victim || (!limb_independence && !target_bodypart))
 		message_admins("Condition \"[src.name]\" has no target, or needs a target bodypart and didn't get one!")
@@ -81,6 +83,8 @@
 		condition_alerts_list |= list(
 			CONDITION_UI_MAX_SEVERITY_FATAL = CONDITION_ALERT_NO_DATA
 		)
+	if(!isnull(condition_source))
+		source = condition_source
 
 /// What to do to the mob and or the limb on removal
 /datum/medical_condition/proc/on_removal()
