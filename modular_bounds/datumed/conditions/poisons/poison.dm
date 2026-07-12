@@ -16,6 +16,7 @@
 	)
 	max_severity_fatal = TRUE
 	death_message = "Your extreme blood poisoning finally gets the better of you."
+	damage_type = TOX
 
 /datum/medical_condition/toxin/on_application(mob/living/carbon/victim, obj/item/bodypart/target_bodypart)
 	. = ..()

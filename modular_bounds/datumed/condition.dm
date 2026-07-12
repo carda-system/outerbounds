@@ -20,6 +20,8 @@
 	var/natural_cure_time = null
 	/// Cooldown between times the severity should drop on this wound
 	COOLDOWN_DECLARE(natural_healing_delay)
+	/// This condition's damage type, used for calculating limb health
+	var/damage_type = BRUTE
 	/// Generic "severity" tracker, for use by subtypes for whatever they wish
 	var/severity = 0
 	/// The severity we started with, used for natural healing, don't set directly
@@ -96,10 +98,11 @@
 	if(isnull(owner))
 		on_removal()
 		return
-	if(severity <= 0)
+	var/obj/item/bodypart/owner_limb = owner.get_bodypart(owner.medical_conditions[src])
+	if((!istype(owner_limb) || isnull(owner_limb)) && !limb_independence)
 		on_removal()
 		return
-	if((!owner.get_bodypart(owner.medical_conditions[src])) && !limb_independence)
+	if(severity <= 0)
 		on_removal()
 		return
 	update_condition_name()
@@ -107,10 +110,12 @@
 		natural_healing()
 		COOLDOWN_START(src, natural_healing_delay, natural_cure_time / 20)
 	health_offset = maximum_health_offset * SEVERITY_2_PERCENT(severity)
-	if(treatment_heal_multiplier != 1)
+	if(treatment_heal_multiplier >= 1)
 		condition_alerts_list |= list(
 			CONDITION_UI_TREATMENT_QUALITY = "This condition has been treated to a quality of [treatment_heal_multiplier * 100], changing the rate it heals at."
 		)
+	if(istype(owner_limb)) // This feels like it may be expensive to run? Look at doing it a better way later
+		owner_limb.update_limb_health_values_for_conditions()
 	if(max_severity_fatal && (severity == CONDITION_SEVERITY_MAX) && (owner.stat != DEAD))
 		achieve_death()
 

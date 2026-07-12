@@ -34,7 +34,7 @@
 			if(isbodypart(def_zone))
 				var/obj/item/bodypart/actual_hit = def_zone
 				var/delta = actual_hit.get_damage()
-				if(actual_hit.receive_damage(
+				actual_hit.receive_damage(
 					brute = damage_amount,
 					burn = 0,
 					forced = forced,
@@ -44,7 +44,7 @@
 					attack_direction = attack_direction,
 					damage_source = attacking_item,
 					wound_clothing = wound_clothing,
-				))
+				)
 				update_damage_overlays()
 				damage_dealt = actual_hit.get_damage() - delta // Unfortunately bodypart receive_damage doesn't return damage dealt so we do it manually
 			else
@@ -53,7 +53,7 @@
 			if(isbodypart(def_zone))
 				var/obj/item/bodypart/actual_hit = def_zone
 				var/delta = actual_hit.get_damage()
-				if(actual_hit.receive_damage(
+				actual_hit.receive_damage(
 					brute = 0,
 					burn = damage_amount,
 					forced = forced,
@@ -63,7 +63,7 @@
 					attack_direction = attack_direction,
 					damage_source = attacking_item,
 					wound_clothing = wound_clothing,
-				))
+				)
 				update_damage_overlays()
 				damage_dealt = actual_hit.get_damage() - delta // See above
 			else

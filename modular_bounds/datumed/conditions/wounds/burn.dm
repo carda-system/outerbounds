@@ -7,3 +7,4 @@
 	causes_bleeding = TRUE
 	max_bleeding_amount = 0.025
 	condition_icon = FA_ICON_FIRE_FLAME_SIMPLE
+	damage_type = BURN
