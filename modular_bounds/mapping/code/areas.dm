@@ -64,6 +64,11 @@
 	base_lighting_color = "#336699"
 
 /area/outerbounds/indoors/outpost
+	always_unpowered = FALSE
+	power_environ = TRUE
+	power_equip = TRUE
+	power_light = TRUE
+	requires_power = TRUE
 
 /area/outerbounds/indoors/outpost/core
 	name = "Outpost Core"
