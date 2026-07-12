@@ -2,19 +2,11 @@
 "a" = (
 /turf/open/genturf,
 /area/outerbounds/surface_generator)
-"k" = (
-/obj/effect/landmark/latejoin,
-/turf/open/genturf,
-/area/outerbounds/surface_generator)
 "q" = (
-/obj/effect/landmark/latejoin,
 /obj/modular_map_root/outer_bounds{
-	key = "core"
+	key = "core";
+	name = "core"
 	},
-/turf/open/genturf,
-/area/outerbounds/surface_generator)
-"x" = (
-/obj/effect/landmark/observer_start,
 /turf/open/genturf,
 /area/outerbounds/surface_generator)
 
@@ -74887,13 +74879,13 @@ a
 a
 a
 a
-x
 a
-k
-k
-k
 a
-x
+a
+a
+a
+a
+a
 a
 a
 a
@@ -75272,13 +75264,13 @@ a
 a
 a
 a
-x
 a
-k
+a
+a
 q
-k
 a
-x
+a
+a
 a
 a
 a
@@ -75657,13 +75649,13 @@ a
 a
 a
 a
-x
 a
-k
-k
-k
 a
-x
+a
+a
+a
+a
+a
 a
 a
 a

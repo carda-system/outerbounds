@@ -8,7 +8,8 @@
 	icon_state = "mining"
 	default_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
-	area_flags = UNIQUE_AREA | FLORA_ALLOWED | CAVES_ALLOWED
+	area_flags = BLOCK_SUICIDE
+	area_flags_mapping = UNIQUE_AREA | FLORA_ALLOWED | CAVES_ALLOWED
 	sound_environment = SOUND_AREA_LAVALAND
 	ambient_buzz = null
 	always_unpowered = TRUE
@@ -17,8 +18,8 @@
 	power_light = FALSE
 	requires_power = TRUE
 	ambience_index = AMBIENCE_GENERIC
-	min_ambience_cooldown = 15 SECONDS
-	max_ambience_cooldown = 1 MINUTES
+	min_ambience_cooldown = 5 MINUTES
+	max_ambience_cooldown = 10 MINUTES
 
 /area/outerbounds/add_base_lighting()
 	. = ..()
@@ -30,24 +31,39 @@
 /area/outerbounds/surface_generator
 	name = "Surface"
 	map_generator = /datum/map_generator/surface_generator
+	requires_power = FALSE
+	always_unpowered = FALSE
+	power_environ = TRUE
+	power_light = TRUE
 	area_has_base_lighting = TRUE
 	base_lighting_alpha = 255
 	outdoors = TRUE
 	outside_lights = TRUE
 
-/area/outerbounds/cave
-	name = "Underground"
-	area_flags = NONE
+/area/outerbounds/dungeon
+	name = "Dungeon Area Basetype (Also Don't Use)"
 	sound_environment = SOUND_AREA_LARGE_ENCLOSED
 	area_has_base_lighting = TRUE
-	outdoors = TRUE
+	area_flags_mapping = NONE
+	outdoors = FALSE
+	base_lighting_alpha = 120
+	base_lighting_color = "#1cac94"
+
+/area/outerbounds/dungeon/old_colony
+	name = "Abandoned Colony"
+
+/area/outerbounds/dungeon/old_colony/underground
+	name = "Abandoned Colony Sublevels"
+
+/area/outerbounds/indoors
+	name = "Indoors Area Basetype (Also Don't Use)"
+	sound_environment = SOUND_AREA_SMALL_ENCLOSED
+	area_has_base_lighting = TRUE
+	area_flags_mapping = NONE
 	base_lighting_alpha = 150
 	base_lighting_color = "#336699"
 
-/area/outerbounds/indoors
-	name = "Indoors"
-	area_flags = NONE
-	sound_environment = SOUND_AREA_SMALL_ENCLOSED
-	area_has_base_lighting = TRUE
-	base_lighting_alpha = 150
-	base_lighting_color = "#336699"
+/area/outerbounds/indoors/outpost
+
+/area/outerbounds/indoors/outpost/core
+	name = "Outpost Core"

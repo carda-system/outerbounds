@@ -4,6 +4,8 @@
 	"map_path": "outer_bounds",
 	"map_file": "surface.dmm",
 	"space_ruin_levels": 0,
+	"space_empty_levels": 0,
+	"planetary": 1,
 	"minetype": "none",
 	"ignored_unit_tests": [
 		"/datum/unit_test/antag_moodlets",
