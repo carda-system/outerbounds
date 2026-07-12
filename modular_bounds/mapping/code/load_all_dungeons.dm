@@ -1,0 +1,5 @@
+/proc/outer_bounds_dungeon_loading()
+	var/list/dungeons_to_load = generateMapList(filename = "dungeon_config.txt")
+	for(var/dungeon_map as anything in dungeons_to_load)
+		to_chat(world, span_boldannounce("Loading dungeon level..."))
+		load_new_z_level(dungeon_map, "Dungeon - [dungeon_map]", FALSE)

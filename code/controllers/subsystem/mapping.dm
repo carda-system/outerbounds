@@ -156,6 +156,8 @@ SUBSYSTEM_DEF(mapping)
 	else if (SSmapping.current_map.load_all_away_missions) // we're likely in a local testing environment, so punch it.
 		load_all_away_missions()
 
+	outer_bounds_dungeon_loading() // OUTER BOUNDS ADDITION - Load all of our dungeons at roundstart
+
 	loading_ruins = TRUE
 	setup_ruins()
 	loading_ruins = FALSE
