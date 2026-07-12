@@ -34,7 +34,7 @@
 		/obj/item/paper/secretrecipe = 1
 	)
 	rpg_title = "Alchemist"
-	job_flags = STATION_JOB_FLAGS
+	// OUTERBOUNDS - Hide unpickable jobs // job_flags = STATION_JOB_FLAGS
 
 
 /datum/outfit/job/chemist

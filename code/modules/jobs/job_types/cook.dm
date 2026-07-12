@@ -50,7 +50,7 @@
 	alternate_titles = list(
 		JOB_CHEF,
 	)
-	job_flags = STATION_JOB_FLAGS
+	// OUTERBOUNDS - Hide unpickable jobs // job_flags = STATION_JOB_FLAGS
 
 /datum/job/cook/award_service(client/winner, award)
 	winner.give_award(award, winner.mob)

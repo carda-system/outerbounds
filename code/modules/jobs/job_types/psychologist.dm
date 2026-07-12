@@ -30,7 +30,7 @@
 		/obj/item/gun/syringe = 1
 	)
 	rpg_title = "Snake Oil Salesman"
-	job_flags = STATION_JOB_FLAGS
+	// OUTERBOUNDS - Hide unpickable jobs // job_flags = STATION_JOB_FLAGS
 
 
 /datum/outfit/job/psychologist

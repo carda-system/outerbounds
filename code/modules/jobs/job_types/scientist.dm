@@ -31,7 +31,7 @@
 		/obj/item/disk/design_disk/bepis = 2,
 	)
 	rpg_title = "Thaumaturgist"
-	job_flags = STATION_JOB_FLAGS
+	// OUTERBOUNDS - Hide unpickable jobs // job_flags = STATION_JOB_FLAGS
 
 	job_tone = "boom"
 
